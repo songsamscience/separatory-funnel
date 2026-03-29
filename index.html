@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>송쌤과학 가상실험실 - 물과 콩기름의 혼합물 분리</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+:root{
+  --bg:#080c16;--bg2:#0f1628;--bg3:#182040;
+  --accent:#3b82f6;--cyan:#06b6d4;--green:#10b981;--amber:#f59e0b;--red:#ef4444;
+  --t1:#f1f5f9;--t2:#94a3b8;--t3:#64748b;
+  --wc:#60a5fa;--oc:#fbbf24;
+  --gs:rgba(148,163,184,0.35);--gf:rgba(148,163,184,0.04);
+  --bd:rgba(148,163,184,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.hdr{background:linear-gradient(135deg,#0c1225,#162040);border-bottom:1px solid var(--bd);padding:10px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
+.hdr-logo{background:linear-gradient(135deg,var(--accent),var(--cyan));border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff;flex-shrink:0}
+.hdr h1{font-size:14px;font-weight:700;line-height:1.2}
+.hdr .sub{font-size:11px;color:var(--t2);font-weight:400}
+.hdr-r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.hdr-r button{background:transparent;border:1px solid var(--bd);color:var(--t2);width:32px;height:32px;border-radius:6px;font-size:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;touch-action:manipulation}
+.hdr-r button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.wrap{display:flex;height:calc(100vh - 55px);overflow:hidden}
+.lab{flex:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--bg)}
+.lab::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px,rgba(148,163,184,.04) 1px,transparent 0);background-size:32px 32px}
+.side{width:256px;background:var(--bg2);border-left:1px solid var(--bd);overflow-y:auto;flex-shrink:0;padding:14px;display:flex;flex-direction:column;}
+#exp{width:100%;max-width:900px;height:auto;position:relative;z-index:1;touch-action:none}
+.sec{margin-bottom:14px}
+.sec-t{font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;display:flex;align-items:center;gap:6px}
+.sec-t i{width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;font-style:normal}
+.card{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+.card-t{font-size:10px;font-weight:700;color:var(--amber);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:11px}
+.row .l{color:var(--t2)}.row .v{font-weight:500}
+.row .v.w{color:var(--wc)}.row .v.o{color:var(--oc)}
+.badge{display:inline-flex;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600}
+.badge.rdy{background:rgba(16,185,129,.15);color:var(--green)}
+.badge.prog{background:rgba(245,158,11,.15);color:var(--amber)}
+.badge.done{background:rgba(59,130,246,.15);color:var(--accent)}
+.sf{display:flex;align-items:flex-start;gap:7px;padding:5px 6px;border-radius:6px;cursor:pointer;font-size:11px;color:var(--t2);line-height:1.5;margin-bottom:2px;transition:background .15s;touch-action:manipulation}
+.sf:hover{background:rgba(255,255,255,.02)}
+.sf .ck{width:16px;height:16px;border-radius:3px;border:2px solid var(--t3);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
+.sf.on .ck{background:var(--green);border-color:var(--green)}
+.sf.on .ck::after{content:'✓';color:#fff;font-size:9px;font-weight:700}
+.sf.on{color:var(--t1)}
+.st{display:flex;align-items:flex-start;gap:7px;padding:6px;border-radius:6px;font-size:11px;color:var(--t3);line-height:1.4;margin-bottom:2px;transition:all .2s}
+.st .n{width:20px;height:20px;border-radius:50%;background:rgba(100,116,139,.15);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;transition:all .2s}
+.st.cur{background:rgba(59,130,246,.08);color:var(--t1)}
+.st.cur .n{background:var(--accent);color:#fff}
+.st.dn{color:var(--t2)}
+.st.dn .n{background:var(--green);color:#fff}
+.log{max-height:140px;overflow-y:auto;margin-top:4px}
+.log-e{font-size:10px;color:var(--t2);padding:4px 0;border-bottom:1px solid rgba(148,163,184,.06);line-height:1.5}
+.log-e b{color:var(--cyan);font-weight:500;margin-right:4px}
+.res{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(6,182,212,.08));border:1px solid rgba(16,185,129,.18);border-radius:8px;padding:12px;margin-top:8px;display:none}
+.res.vis{display:block}
+.res h4{font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px}
+.res p{font-size:11px;color:var(--t2);line-height:1.7;margin-bottom:4px}
+.ov{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(8,12,22,.94);border:1px solid var(--bd);border-radius:14px;padding:22px 28px;text-align:center;z-index:20;backdrop-filter:blur(8px);display:none;max-width:85%;pointer-events:none}
+.ov.vis{display:block}
+.ov h3{font-size:15px;font-weight:700;margin-bottom:5px}
+.ov p{font-size:12px;color:var(--t2);line-height:1.5}
+.svg-btn{cursor:pointer;transition:opacity .15s;touch-action:manipulation}
+.svg-btn:hover rect{fill-opacity:.25}
+.svg-btn.dis{opacity:.25;pointer-events:none}
+.copyright{margin-top:auto; padding-top:20px; padding-bottom:10px; text-align:center; font-size:10px; color:var(--t3); letter-spacing:0.5px;}
+@keyframes shake{0%,100%{transform:translate(0,0) rotate(0)}10%{transform:translate(-3px,2px) rotate(-7deg)}20%{transform:translate(3px,-2px) rotate(7deg)}30%{transform:translate(-2px,1px) rotate(-5deg)}40%{transform:translate(2px,-1px) rotate(5deg)}50%{transform:translate(-1px,1px) rotate(-3deg)}60%{transform:translate(1px,-1px) rotate(3deg)}70%{transform:translate(-1px,0) rotate(-2deg)}80%{transform:translate(1px,0) rotate(2deg)}90%{transform:translate(0,0) rotate(-1deg)}}
+.shaking{animation:shake 1.6s ease-in-out;transform-origin:224px 290px}
+body.light{--bg:#f5f7fb;--bg2:#fff;--bg3:#f0f3f8;--t1:#0f172a;--t2:#475569;--t3:#94a3b8;--gs:rgba(51,65,85,.3);--gf:rgba(51,65,85,.02);--bd:rgba(51,65,85,.1)}
+body.light .hdr{background:linear-gradient(135deg,#f8fafc,#e8ecf4)}
+body.light .lab::before{background-image:radial-gradient(circle at 1px 1px,rgba(51,65,85,.05) 1px,transparent 0)}
+body.light .ov{background:rgba(255,255,255,.94)}
+@media(max-width:800px){
+  .wrap{flex-direction:column;height:auto}
+  .lab{min-height:58vh;max-height:72vh}
+  .side{width:100%;border-left:none;border-top:1px solid var(--bd);max-height:45vh}
+  .hdr h1{font-size:13px}
+}
+@media(max-width:480px){
+  .lab{min-height:50vh}
+  .hdr{padding:8px 12px;gap:8px}
+  .hdr-logo{width:30px;height:30px;font-size:14px;border-radius:6px}
+  .side{padding:10px}
+}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-logo">송</div>
+  <div><h1>송쌤과학 가상실험실</h1><div class="sub">물과 콩기름의 혼합물 분리하기</div></div>
+  <div class="hdr-r">
+    <button onclick="toggleSound()" id="snd-btn" class="on" title="소리">🔊</button>
+    <button onclick="toggleTheme()" id="thm-btn" title="테마">🌙</button>
+  </div>
+</div>
+<div class="wrap">
+  <div class="lab" id="lab">
+    <svg id="exp" viewBox="0 0 900 640">
+      <defs>
+        <linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3b82f6" stop-opacity=".82"/><stop offset="100%" stop-color="#1d4ed8" stop-opacity=".94"/></linearGradient>
+        <linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fbbf24" stop-opacity=".78"/><stop offset="100%" stop-color="#d97706" stop-opacity=".9"/></linearGradient>
+        <linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d97706" stop-opacity=".55"/><stop offset="30%" stop-color="#92700a" stop-opacity=".65"/><stop offset="70%" stop-color="#4a6fa5" stop-opacity=".65"/><stop offset="100%" stop-color="#2563eb" stop-opacity=".82"/></linearGradient>
+        <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#374151" stop-opacity=".9"/><stop offset="100%" stop-color="#1f2937" stop-opacity=".95"/></linearGradient>
+      </defs>
+
+      <!-- DESK -->
+      <rect x="30" y="565" width="530" height="16" rx="3" fill="url(#desk)"/>
+      <rect x="30" y="575" width="530" height="60" rx="0" fill="#1f2937" opacity=".5"/>
+      <line x1="30" y1="565" x2="560" y2="565" stroke="rgba(148,163,184,.15)" stroke-width="1"/>
+
+      <!-- STAND -->
+      <rect x="220" y="68" width="8" height="500" rx="3" fill="#5a6577" opacity=".55"/>
+      <rect x="200" y="130" width="48" height="7" rx="2" fill="#5a6577" opacity=".6"/>
+      <path d="M170 134 Q170 120 188 120 L260 120 Q278 120 278 134" fill="none" stroke="#5a6577" stroke-width="2.5" opacity=".45"/>
+
+      <!-- FUNNEL GROUP -->
+      <g id="fng">
+        <g id="fnb">
+          <path d="M185 118 Q180 118 176 132 Q162 165 158 212 Q154 260 158 298 Q162 326 176 344 Q185 358 198 372 L198 418 L250 418 L250 372 Q263 358 272 344 Q286 326 290 298 Q294 260 290 212 Q286 165 272 132 Q268 118 263 118 Z" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.8"/>
+          <path d="M189 127 Q185 155 182 192 Q180 230 182 268 Q185 306 194 344" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="2.5" stroke-linecap="round"/>
+          <clipPath id="fc"><path d="M186 119 Q181 119 177 133 Q163 166 159 213 Q155 261 159 299 Q163 327 177 345 Q186 359 199 373 L199 417 L249 417 L249 373 Q262 359 271 345 Q285 327 289 299 Q293 261 289 213 Q285 166 271 133 Q267 119 262 119 Z"/></clipPath>
+          <g clip-path="url(#fc)">
+            <rect id="ol" x="150" y="138" width="148" height="0" fill="url(#og)"/>
+            <rect id="wl" x="150" y="138" width="148" height="0" fill="url(#wg)"/>
+            <rect id="ml" x="150" y="138" width="148" height="0" fill="url(#mg)" opacity="0"/>
+            <g id="bub" opacity="0"></g>
+          </g>
+          <!-- Stem -->
+          <rect x="210" y="418" width="28" height="44" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.5"/>
+          <!-- Stopcock 꼭지 -->
+          <g id="stopcock">
+            <rect x="204" y="453" width="40" height="12" rx="3" fill="#d1d5db" stroke="#9ca3af" stroke-width=".8"/>
+            <rect id="ckh" x="241" y="449" width="26" height="20" rx="3" fill="#6b7280" stroke="#9ca3af" stroke-width=".8"/>
+            <text x="224" y="462" text-anchor="middle" font-size="9" fill="#1f2937" font-weight="700" font-family="'Noto Sans KR'">꼭지</text>
+          </g>
+          <rect x="217" y="465" width="14" height="18" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.2"/>
+          
+          <!-- Cap 마개 -->
+          <g id="cap">
+            <rect x="197" y="106" width="54" height="14" rx="3" fill="#9ca3af" stroke="var(--gs)" stroke-width=".8"/>
+            <rect x="218" y="97" width="12" height="12" rx="2.5" fill="#9ca3af" />
+            <text x="224" y="116" text-anchor="middle" font-size="9" fill="#1f2937" font-weight="700" font-family="'Noto Sans KR'">마개</text>
+          </g>
+          
+          <!-- Scale -->
+          <g opacity=".25" font-size="8" fill="var(--t2)" font-family="'Noto Sans KR'">
+            <line x1="286" y1="200" x2="294" y2="200" stroke="var(--t2)" stroke-width=".8"/><text x="297" y="203">50</text>
+            <line x1="283" y1="295" x2="294" y2="295" stroke="var(--t2)" stroke-width=".8"/><text x="297" y="298">100</text>
+            <line x1="278" y1="345" x2="294" y2="345" stroke="var(--t2)" stroke-width=".8"/><text x="297" y="348">150</text>
+          </g>
+        </g>
+      </g>
+
+      <!-- STATUS INDICATORS -->
+      <g id="capSt" opacity="0">
+        <rect x="105" y="100" width="65" height="20" rx="5" fill="rgba(16,185,129,.12)" stroke="rgba(16,185,129,.25)" stroke-width=".8"/>
+        <text x="137" y="114" text-anchor="middle" font-size="10" fill="#10b981" font-weight="500" font-family="'Noto Sans KR'">마개 열림</text>
+      </g>
+      <g id="ckSt" opacity="0">
+        <rect x="270" y="453" width="65" height="20" rx="5" fill="rgba(59,130,246,.12)" stroke="rgba(59,130,246,.25)" stroke-width=".8"/>
+        <text x="302" y="467" text-anchor="middle" font-size="10" fill="#60a5fa" font-weight="500" font-family="'Noto Sans KR'">꼭지 열림</text>
+      </g>
+
+      <!-- BEAKER A (물) - center under funnel -->
+      <g id="bk1">
+        <path d="M175 500 L175 555 Q175 563 183 563 L275 563 Q283 563 283 555 L283 500" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.8"/>
+        <path d="M175 500 L167 496" fill="none" stroke="var(--gs)" stroke-width="1.5"/>
+        <clipPath id="b1c"><path d="M176 500 L176 554 Q176 562 184 562 L274 562 Q282 562 282 554 L282 500 Z"/></clipPath>
+        <g clip-path="url(#b1c)"><rect id="b1w" x="175" y="563" width="108" height="0" fill="url(#wg)" opacity=".88"/></g>
+        <text x="229" y="576" text-anchor="middle" font-size="10" fill="var(--t3)" font-family="'Noto Sans KR'">비커 A</text>
+      </g>
+
+      <!-- BEAKER B (기름) - RIGHT side -->
+      <g id="bk2" opacity=".3">
+        <path d="M390 500 L390 555 Q390 563 398 563 L490 563 Q498 563 498 555 L498 500" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.8"/>
+        <path d="M390 500 L382 496" fill="none" stroke="var(--gs)" stroke-width="1.5"/>
+        <clipPath id="b2c"><path d="M391 500 L391 554 Q391 562 399 562 L489 562 Q497 562 497 554 L497 500 Z"/></clipPath>
+        <g clip-path="url(#b2c)"><rect id="b2o" x="390" y="563" width="108" height="0" fill="url(#og)" opacity=".88"/></g>
+        <text x="444" y="576" text-anchor="middle" font-size="10" fill="var(--t3)" font-family="'Noto Sans KR'">비커 B</text>
+      </g>
+
+      <!-- DRIP -->
+      <g id="drip" opacity="0"><circle id="drop" cx="224" cy="487" r="3.5" fill="#3b82f6" opacity=".85"/></g>
+
+      <!-- OIL STREAM (Starts from tilted mouth, drops into Beaker B) -->
+      <g id="ostr" opacity="0">
+        <path d="M355 170 Q 410 180 435 280 L 440 500" fill="none" stroke="#d97706" stroke-width="6" opacity=".5" stroke-linecap="round"/>
+        <path d="M355 170 Q 410 180 435 280 L 440 500" fill="none" stroke="#fbbf24" stroke-width="3" opacity=".7" stroke-linecap="round"/>
+      </g>
+
+      <!-- LABELS -->
+      <g id="lbl" opacity="0">
+        <g><line x1="288" y1="185" x2="330" y2="178" stroke="#fbbf24" stroke-width=".8" stroke-dasharray="2,2" opacity=".5"/>
+        <rect x="330" y="167" width="62" height="20" rx="5" fill="rgba(217,119,6,.12)" stroke="rgba(217,119,6,.22)" stroke-width=".8"/>
+        <text x="361" y="181" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="500" font-family="'Noto Sans KR'">콩기름</text></g>
+        <g><line x1="288" y1="330" x2="330" y2="338" stroke="#60a5fa" stroke-width=".8" stroke-dasharray="2,2" opacity=".5"/>
+        <rect x="330" y="327" width="38" height="20" rx="5" fill="rgba(37,99,235,.12)" stroke="rgba(37,99,235,.22)" stroke-width=".8"/>
+        <text x="349" y="341" text-anchor="middle" font-size="11" fill="#60a5fa" font-weight="500" font-family="'Noto Sans KR'">물</text></g>
+        <g><line x1="158" y1="268" x2="110" y2="268" stroke="#06b6d4" stroke-width=".8" stroke-dasharray="2,2" opacity=".5"/>
+        <rect x="48" y="257" width="62" height="20" rx="5" fill="rgba(6,182,212,.12)" stroke="rgba(6,182,212,.22)" stroke-width=".8"/>
+        <text x="79" y="271" text-anchor="middle" font-size="11" fill="#06b6d4" font-weight="500" font-family="'Noto Sans KR'">경계면</text></g>
+      </g>
+
+      <!-- POUR TEXT -->
+      <g id="ptx" opacity="0"><text x="224" y="80" text-anchor="middle" font-size="12" fill="var(--cyan)" font-family="'Noto Sans KR'" font-weight="500">혼합물 투입 중...</text></g>
+
+      <!-- ===== CONTROLS (RIGHT) ===== -->
+      <g id="ctrls" font-family="'Noto Sans KR'" font-size="12">
+        <g class="svg-btn" id="b-pour" onclick="pourMixture()">
+          <rect x="600" y="80" width="260" height="40" rx="8" fill="rgba(59,130,246,.12)" stroke="rgba(59,130,246,.3)" stroke-width="1"/>
+          <text x="730" y="105" text-anchor="middle" fill="#60a5fa" font-weight="500">🧪 혼합물 넣기</text>
+        </g>
+        <g class="svg-btn dis" id="b-shake" onclick="shakeFunnel()">
+          <rect x="600" y="128" width="260" height="40" rx="8" fill="rgba(6,182,212,.08)" stroke="rgba(6,182,212,.22)" stroke-width="1"/>
+          <text x="730" y="153" text-anchor="middle" fill="#06b6d4" font-weight="500">🔄 흔들어 섞기</text>
+        </g>
+        <g class="svg-btn dis" id="b-wait" onclick="waitSeparation()">
+          <rect x="600" y="176" width="260" height="40" rx="8" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.22)" stroke-width="1"/>
+          <text x="730" y="201" text-anchor="middle" fill="#f59e0b" font-weight="500">⏳ 기다리기</text>
+        </g>
+        <g class="svg-btn dis" id="b-cap" onclick="openCap()">
+          <rect x="600" y="228" width="260" height="40" rx="8" fill="rgba(16,185,129,.08)" stroke="rgba(16,185,129,.22)" stroke-width="1"/>
+          <text x="730" y="253" text-anchor="middle" fill="#10b981" font-weight="500" id="b-cap-t">🔓 마개 열기</text>
+        </g>
+        <g class="svg-btn dis" id="b-drain" onclick="drainWater()">
+          <rect x="600" y="276" width="260" height="40" rx="8" fill="rgba(59,130,246,.08)" stroke="rgba(59,130,246,.22)" stroke-width="1"/>
+          <text x="730" y="301" text-anchor="middle" fill="#60a5fa" font-weight="500" id="b-drain-t">💧 꼭지 열기</text>
+        </g>
+        <g class="svg-btn dis" id="b-close" onclick="closeCock()">
+          <rect x="600" y="324" width="260" height="40" rx="8" fill="rgba(239,68,68,.08)" stroke="rgba(239,68,68,.2)" stroke-width="1"/>
+          <text x="730" y="349" text-anchor="middle" fill="#ef4444" font-weight="500">🔒 꼭지 잠그기</text>
+        </g>
+        <g class="svg-btn dis" id="b-oil" onclick="pourOilOut()">
+          <rect x="600" y="376" width="260" height="40" rx="8" fill="rgba(245,158,11,.08)" stroke="rgba(245,158,11,.22)" stroke-width="1"/>
+          <text x="730" y="401" text-anchor="middle" fill="#f59e0b" font-weight="500">🫗 기름 따라내기</text>
+        </g>
+        <g class="svg-btn" id="b-reset" onclick="resetExperiment()">
+          <rect x="600" y="432" width="260" height="36" rx="8" fill="rgba(239,68,68,.06)" stroke="rgba(239,68,68,.15)" stroke-width="1"/>
+          <text x="730" y="455" text-anchor="middle" fill="#ef4444" font-weight="500" font-size="11">↺ 초기화</text>
+        </g>
+        <g>
+          <rect x="600" y="484" width="260" height="56" rx="8" fill="rgba(148,163,184,.04)" stroke="var(--bd)" stroke-width=".8"/>
+          <text x="618" y="503" font-size="10" fill="var(--t3)" font-weight="500">현재 단계</text>
+          <text x="618" y="527" font-size="14" fill="var(--t1)" font-weight="700" id="step-txt">1. 혼합물 넣기</text>
+        </g>
+      </g>
+    </svg>
+    <div class="ov" id="ov"><h3 id="ov-t"></h3><p id="ov-p"></p></div>
+  </div>
+
+  <div class="side" id="side">
+    <div class="sec">
+      <div class="sec-t"><i style="background:rgba(239,68,68,.12);color:var(--red)">⚠</i>안전 수칙</div>
+      <div class="sf" onclick="tgSf(this)" data-i="0"><div class="ck"></div><span>보안경을 착용한다.</span></div>
+      <div class="sf" onclick="tgSf(this)" data-i="1"><div class="ck"></div><span>실험복(앞치마)을 착용한다.</span></div>
+      <div class="sf" onclick="tgSf(this)" data-i="2"><div class="ck"></div><span>분별깔때기의 꼭지가 닫혀 있는지 확인한다.</span></div>
+      <div class="sf" onclick="tgSf(this)" data-i="3"><div class="ck"></div><span>분별깔때기를 링 클램프에 고정한다.</span></div>
+      <div id="sf-s" style="margin-top:6px;font-size:10px;color:var(--t3)">0/4 확인 완료</div>
+    </div>
+    <div class="sec">
+      <div class="sec-t"><i style="background:rgba(59,130,246,.12);color:var(--accent)">📋</i>실험 순서</div>
+      <div class="st cur" data-s="0"><div class="n">1</div><span>혼합물을 분별깔때기에 넣는다.</span></div>
+      <div class="st" data-s="1"><div class="n">2</div><span>뚜껑을 닫고 잘 흔들어 섞는다.</span></div>
+      <div class="st" data-s="2"><div class="n">3</div><span>두 액체가 분리될 때까지 기다린다.</span></div>
+      <div class="st" data-s="3"><div class="n">4</div><span>마개를 열고 꼭지를 열어 아래층(물)을 비커에 받는다.</span></div>
+      <div class="st" data-s="4"><div class="n">5</div><span>경계면 근처에서 꼭지를 잠근다.</span></div>
+      <div class="st" data-s="5"><div class="n">6</div><span>마개 쪽으로 위층(콩기름)을 다른 비커에 따라낸다.</span></div>
+    </div>
+    <div class="card">
+      <div class="card-t">실험 상태</div>
+      <div style="margin-bottom:4px"><span class="badge rdy" id="bdg">준비</span></div>
+      <div class="row"><span class="l">경과 시간</span><span class="v" id="timer">00:00</span></div>
+      <div class="row"><span class="l">마개</span><span class="v" id="d-cap">닫힘</span></div>
+      <div class="row"><span class="l">꼭지</span><span class="v" id="d-ck">닫힘</span></div>
+    </div>
+    <div class="card">
+      <div class="card-t">물질 정보</div>
+      <div class="row"><span class="l">물 밀도</span><span class="v w">1.00 g/mL</span></div>
+      <div class="row"><span class="l">콩기름 밀도</span><span class="v o">0.92 g/mL</span></div>
+      <div class="row"><span class="l">깔때기 속 물</span><span class="v" id="d-fw">0 mL</span></div>
+      <div class="row"><span class="l">깔때기 속 기름</span><span class="v" id="d-fo">0 mL</span></div>
+      <div class="row"><span class="l">비커A</span><span class="v w" id="d-b1">0 mL</span></div>
+      <div class="row"><span class="l">비커B</span><span class="v o" id="d-b2">0 mL</span></div>
+      <div class="row"><span class="l">혼합 상태</span><span class="v" id="d-mx">-</span></div>
+    </div>
+    <div class="card">
+      <div class="card-t">핵심 개념</div>
+      <div style="font-size:11px;color:var(--t2);line-height:1.7" id="cpt">물과 콩기름은 서로 <strong style="color:var(--amber)">섞이지 않는</strong> 액체입니다. 이처럼 서로 섞이지 않는 액체의 혼합물은 <strong style="color:var(--cyan)">분별깔때기</strong>를 이용하여 분리할 수 있습니다.</div>
+    </div>
+    <div class="card">
+      <div class="card-t">관찰 기록</div>
+      <div class="log" id="log"><div class="log-e"><b>00:00</b>실험 준비 완료</div></div>
+    </div>
+    <div class="res" id="res"><h4>✅ 실험 결과</h4><div id="res-t"></div></div>
+    
+    <!-- 저작권 명시 영역 -->
+    <div class="copyright">
+      &copy; 2026 <strong>송쌤과학</strong>. All rights reserved.
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== AUDIO =====
+let actx=null,soundOn=true;
+function ia(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();}
+function pt(f,d,ty='sine',v=.1){if(!soundOn)return;ia();const o=actx.createOscillator(),g=actx.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(v,actx.currentTime);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+d);o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+d);}
+function sndPour(){pt(220,.15,'sine',.07);setTimeout(()=>pt(280,.12,'sine',.05),100);}
+function sndBub(){pt(800+Math.random()*400,.07,'sine',.04);}
+function sndShake(){for(let i=0;i<6;i++)setTimeout(()=>{pt(150+Math.random()*200,.1,'sawtooth',.03);pt(300+Math.random()*300,.06,'sine',.02);},i*180);}
+function sndDrip(){pt(1200,.06,'sine',.06);setTimeout(()=>pt(900,.08,'sine',.04),60);}
+function sndSep(){pt(440,.3,'sine',.05);setTimeout(()=>pt(550,.3,'sine',.04),200);setTimeout(()=>pt(660,.4,'sine',.03),400);}
+function sndDone(){pt(523,.15,'sine',.09);setTimeout(()=>pt(659,.15,'sine',.09),150);setTimeout(()=>pt(784,.3,'sine',.09),300);}
+function sndClick(){pt(600,.04,'square',.05);}
+function sndOil(){pt(180,.2,'sine',.06);setTimeout(()=>pt(240,.15,'sine',.04),120);}
+function sndLock(){pt(400,.08,'square',.06);setTimeout(()=>pt(300,.1,'square',.04),80);}
+let psi=null,dsi=null;
+function spOn(){psi=setInterval(sndPour,250);}
+function spOff(){clearInterval(psi);}
+function sdOn(){dsi=setInterval(sndDrip,300);}
+function sdOff(){clearInterval(dsi);}
+function toggleSound(){soundOn=!soundOn;document.getElementById('snd-btn').classList.toggle('on',soundOn);document.getElementById('snd-btn').textContent=soundOn?'🔊':'🔇';}
+
+// ===== STATE =====
+const S={step:0,sf:[0,0,0,0],allSf:0,capO:0,ckO:0,busy:0,sep:0,done:0,wF:0,oF:0,wB:0,oB:0,mix:0,sec:0,tiv:null};
+const $=id=>document.getElementById(id);
+
+let dark=true;
+function toggleTheme(){dark=!dark;document.body.classList.toggle('light',!dark);$('thm-btn').textContent=dark?'🌙':'☀️';}
+
+function tgSf(el){sndClick();const i=+el.dataset.i;S.sf[i]=1-S.sf[i];el.classList.toggle('on',S.sf[i]);const c=S.sf.reduce((a,b)=>a+b,0);$('sf-s').textContent=`${c}/4 확인 완료`;S.allSf=c===4;if(S.allSf){$('sf-s').style.color='var(--green)';$('sf-s').textContent='✅ 모든 안전 수칙 확인 완료!';}else $('sf-s').style.color='var(--t3)';}
+
+function startT(){if(S.tiv)return;S.tiv=setInterval(()=>{S.sec++;$('timer').textContent=ts();},1000);}
+function ts(){return String(Math.floor(S.sec/60)).padStart(2,'0')+':'+String(S.sec%60).padStart(2,'0');}
+function addL(t){const d=document.createElement('div');d.className='log-e';d.innerHTML=`<b>${ts()}</b>${t}`;$('log').appendChild(d);$('log').scrollTop=1e5;}
+function setS(n){
+  S.step=n;
+  const nm=['1. 혼합물 넣기','2. 흔들어 섞기','3. 기다리기','4. 물 분리','5. 꼭지 잠그기','6. 기름 따라내기','✅ 완료'];
+  $('step-txt').textContent=nm[Math.min(n,6)];
+  document.querySelectorAll('.st').forEach((el,i)=>{el.classList.remove('cur','dn');if(i<n)el.classList.add('dn');else if(i===n)el.classList.add('cur');});
+}
+function msg(t,p,d){$('ov-t').textContent=t;$('ov-p').textContent=p;$('ov').classList.add('vis');if(d)setTimeout(()=>$('ov').classList.remove('vis'),d);}
+function badge(c,t){$('bdg').className=`badge ${c}`;$('bdg').textContent=t;}
+function en(id,v){$(id).classList.toggle('dis',!v);}
+
+// ===== DISPLAY =====
+function updF(){
+  const tH=275,bB=415,tot=S.wF+S.oF;
+  if(tot===0){$('ol').setAttribute('height',0);$('wl').setAttribute('height',0);$('ml').setAttribute('height',0);$('bub').setAttribute('opacity',0);upd();return;}
+  const fR=tot/200,fH=tH*fR,wR=S.wF/tot,wH=fH*wR,oH=fH*(1-wR);
+  if(S.mix>.1){
+    $('ol').setAttribute('opacity',1-S.mix);$('wl').setAttribute('opacity',1-S.mix);$('ml').setAttribute('opacity',S.mix);
+    const bY=bB-fH;
+    $('ml').setAttribute('y',bY);$('ml').setAttribute('height',fH);
+    $('ol').setAttribute('y',bY);$('ol').setAttribute('height',oH);
+    $('wl').setAttribute('y',bY+oH);$('wl').setAttribute('height',wH);
+    $('bub').setAttribute('opacity',S.mix*.65);
+    let b='';const c=Math.floor(S.mix*14);
+    for(let i=0;i<c;i++)b+=`<circle cx="${188+Math.random()*72}" cy="${bY+Math.random()*fH}" r="${1.5+Math.random()*4}" fill="#fbbf24" opacity="${.15+Math.random()*.3}"/>`;
+    $('bub').innerHTML=b;
+  }else{
+    $('ml').setAttribute('opacity',0);$('ol').setAttribute('opacity',1);$('wl').setAttribute('opacity',1);$('bub').setAttribute('opacity',0);
+    $('wl').setAttribute('y',bB-wH);$('wl').setAttribute('height',wH);
+    $('ol').setAttribute('y',bB-wH-oH);$('ol').setAttribute('height',oH);
+  }
+  upd();
+}
+function updB1(){const h=55*(S.wB/100);$('b1w').setAttribute('y',563-h);$('b1w').setAttribute('height',h);}
+function updB2(){const h=55*(S.oB/80);$('b2o').setAttribute('y',563-h);$('b2o').setAttribute('height',h);}
+function upd(){$('d-fw').textContent=Math.round(S.wF)+' mL';$('d-fo').textContent=Math.round(S.oF)+' mL';$('d-b1').textContent=Math.round(S.wB)+' mL';$('d-b2').textContent=Math.round(S.oB)+' mL';}
+
+function updCap(){
+  // 전체 그룹(cap) 단위로 회전 및 투명도 조절하여 일관성 유지
+  if(S.capO){
+    $('cap').setAttribute('transform','translate(-35,-12) rotate(-25,224,113)');
+    $('cap').setAttribute('opacity','.4');
+    $('capSt').setAttribute('opacity','1');$('d-cap').textContent='열림';$('d-cap').style.color='var(--green)';
+  }else{
+    $('cap').removeAttribute('transform');
+    $('cap').setAttribute('opacity','1');
+    $('capSt').setAttribute('opacity','0');$('d-cap').textContent='닫힘';$('d-cap').style.color='';
+  }
+}
+function updCk(){
+  if(S.ckO){$('ckh').setAttribute('transform','rotate(90 254 459)');$('ckSt').setAttribute('opacity','1');$('d-ck').textContent='열림';$('d-ck').style.color='var(--accent)';}
+  else{$('ckh').removeAttribute('transform');$('ckSt').setAttribute('opacity','0');$('d-ck').textContent='닫힘';$('d-ck').style.color='';}
+}
+function showLbl(v){$('lbl').setAttribute('opacity',v?1:0);}
+
+// ===== EXPERIMENT STEPS =====
+function pourMixture(){
+  if(!S.allSf){msg('⚠️ 안전 수칙 확인','모든 안전 수칙을 먼저 확인해 주세요!',2500);sndClick();return;}
+  if(S.busy||S.step>0)return;
+  S.busy=1;startT();en('b-pour',0);badge('prog','투입 중');
+  addL('물(100mL)과 콩기름(80mL)의 혼합물을 분별깔때기에 넣는 중');
+  $('ptx').setAttribute('opacity',1);spOn();
+  let p=0;
+  const iv=setInterval(()=>{
+    p+=2;S.wF=Math.min(100,p);S.oF=Math.min(80,p*.8);S.mix=0;updF();$('d-mx').textContent='분리 상태';
+    if(p%10===0)sndBub();
+    if(p>=100){clearInterval(iv);spOff();S.busy=0;$('ptx').setAttribute('opacity',0);addL('혼합물 투입 완료 (물 100mL + 콩기름 80mL)');addL('밀도 차이로 물이 아래, 콩기름이 위에 위치');showLbl(1);setS(1);en('b-shake',1);badge('prog','진행 중');$('cpt').innerHTML=`물(밀도 <strong style="color:var(--wc)">1.00 g/mL</strong>)이 콩기름(밀도 <strong style="color:var(--oc)">0.92 g/mL</strong>)보다 밀도가 크므로 <strong style="color:var(--cyan)">아래층</strong>에 위치합니다.`;}
+  },30);
+}
+
+function shakeFunnel(){
+  if(S.busy||S.step!==1)return;
+  S.busy=1;en('b-shake',0);showLbl(0);addL('분별깔때기를 뒤집어 잘 흔들어 섞는 중');
+  $('fng').classList.add('shaking');sndShake();
+  let mp=0;const iv=setInterval(()=>{mp+=4;S.mix=Math.min(1,mp/100);updF();$('d-mx').textContent='혼합 중...';if(mp%15===0)sndBub();if(mp>=100)clearInterval(iv);},45);
+  setTimeout(()=>{$('fng').classList.remove('shaking');S.busy=0;S.mix=1;updF();$('d-mx').textContent='완전 혼합';addL('혼합 완료 - 물과 콩기름이 뒤섞여 뿌옇게 보임');setS(2);en('b-wait',1);$('cpt').innerHTML=`흔들어 섞으면 일시적으로 뒤섞이지만, 서로 <strong style="color:var(--amber)">섞이지 않는 성질</strong> 때문에 시간이 지나면 다시 두 층으로 분리됩니다.`;},2200);
+}
+
+function waitSeparation(){
+  if(S.busy||S.step!==2)return;
+  S.busy=1;en('b-wait',0);addL('두 액체가 분리될 때까지 기다리는 중');badge('prog','분리 중');
+  let sp=0;const iv=setInterval(()=>{
+    sp++;S.mix=Math.max(0,1-sp/100);updF();
+    if(sp<30)$('d-mx').textContent='분리 시작...';else if(sp<70)$('d-mx').textContent='분리 진행 중';else $('d-mx').textContent='거의 분리됨';
+    if(sp===50)sndSep();
+    if(sp>=100){clearInterval(iv);S.busy=0;S.sep=1;S.mix=0;updF();showLbl(1);$('d-mx').textContent='완전 분리';addL('층 분리 완료 - 위층: 콩기름, 아래층: 물');addL('경계면이 뚜렷하게 관찰됨');setS(3);en('b-cap',1);badge('prog','마개를 여세요');$('cpt').innerHTML=`두 층이 완전히 분리되었습니다. 먼저 <strong style="color:var(--green)">마개를 열고</strong>, <strong style="color:var(--accent)">꼭지를 열어</strong> 아래층의 물을 비커에 받습니다.`;}
+  },55);
+}
+
+function openCap(){
+  if(S.step!==3||S.capO)return;
+  sndClick();S.capO=1;updCap();addL('분별깔때기 마개를 열었음');en('b-cap',0);$('b-cap-t').textContent='🔓 마개 열림';en('b-drain',1);
+  msg('💡 안내','마개를 열었습니다. 이제 꼭지를 열어 물을 비커에 받으세요.',2500);
+  $('cpt').innerHTML=`마개를 열면 위쪽으로 <strong style="color:var(--cyan)">공기가 유입</strong>되어 꼭지를 열었을 때 액체가 원활하게 흘러내립니다.`;
+}
+
+function drainWater(){
+  if(S.busy||S.step!==3||!S.capO||!S.sep)return;
+  S.busy=1;S.ckO=1;updCk();en('b-drain',0);showLbl(0);
+  addL('꼭지를 열어 아래층의 물을 비커 A에 받는 중');
+  $('drip').setAttribute('opacity',1);sdOn();
+  const tW=S.wF;let dp=0;
+  const iv=setInterval(()=>{
+    dp++;const dr=tW*(dp/100);S.wF=tW-dr;S.wB=dr;updF();updB1();
+    const dd=$('drop'),dy=487+(dp%18)*1.1;
+    if(dd){dd.setAttribute('cy',dy>505?487:dy);dd.setAttribute('opacity',dy>502?.25:.85);}
+    if(dp>=100){
+      clearInterval(iv);sdOff();S.busy=0;S.wF=0;S.wB=tW;updF();updB1();$('drip').setAttribute('opacity',0);
+      addL('물 분리 완료 - 비커 A에 물이 모두 모임');
+      addL('경계면 근처에서 꼭지를 잠가야 합니다');
+      setS(4);en('b-close',1);badge('prog','꼭지를 잠그세요');
+      $('cpt').innerHTML=`아래층의 물이 모두 빠져나왔습니다. 이제 <strong style="color:var(--red)">꼭지를 잠가</strong> 깔때기에 남은 콩기름이 흘러내리지 않도록 합니다.`;
+    }
+  },30);
+}
+
+function closeCock(){
+  if(S.step!==4||!S.ckO)return;
+  sndLock();
+  S.ckO=0;updCk();
+  // 물리적 고증에 맞게 위로 따르기 위해 마개는 계속 열어둔 상태 유지 (S.capO=0 삭제)
+  en('b-close',0);
+  addL('꼭지를 잠금');
+  addL('분별깔때기에 콩기름만 남아 있음');
+  setS(5);
+  $('bk2').setAttribute('opacity','1');
+  en('b-oil',1);
+  badge('prog','기름 따라내기');
+  $('cpt').innerHTML=`꼭지를 잠갔습니다. 깔때기에 남은 콩기름은 꼭지 아래로 빼지 않고 <strong style="color:var(--green)">마개 쪽(위쪽)으로 따라냅니다</strong>. 이렇게 하면 꼭지 아래 관에 남은 물이 콩기름에 섞이지 않습니다.`;
+  msg('💡 안내','꼭지를 잠갔습니다. 이제 기름을 비커 B에 따라내세요.',2500);
+}
+
+// 수정된 기름 따라내기 함수 (마개 입구부터 정확히 떨어지도록 회전 및 물줄기 시작점 정밀 조절)
+function pourOilOut(){
+  if(S.busy||S.step!==5)return;
+  S.busy=1;en('b-oil',0);addL('마개 쪽으로 콩기름을 비커 B에 따라내는 중');badge('prog','기름 분리 중');sndOil();
+  const fg=$('fng');
+  fg.style.transition='transform 1.2s ease-in-out';
+  fg.style.transformOrigin='224px 290px'; // 스탠드 링 고정 위치
+  fg.style.transform='rotate(38deg)';     // 비커 B 방향(우측)으로 자연스러운 회전
+  
+  setTimeout(()=>{
+    $('ostr').setAttribute('opacity','1');
+    const tO=S.oF;let dp=0;
+    const oi=setInterval(()=>{if(dp%20===0)sndOil();},400);
+    const iv=setInterval(()=>{
+      dp+=2;S.oF=tO-tO*(dp/100);S.oB=tO*(dp/100);updF();updB2();
+      if(dp>=100){
+        clearInterval(iv);clearInterval(oi);S.oF=0;S.oB=tO;updF();updB2();
+        $('ostr').setAttribute('opacity','0');
+        
+        setTimeout(() => {
+          fg.style.transform='rotate(0)';
+          setTimeout(()=>{fg.style.transition='';S.busy=0;S.done=1;setS(6);badge('done','실험 완료');addL('콩기름 분리 완료 - 비커 B에 콩기름 수집');addL('물과 콩기름 분리 실험 완료!');sndDone();showResult();},1200);
+        }, 300); // 기름 다 따른 후 살짝 기다렸다가 원위치
+      }
+    },35);
+  },1200);
+}
+
+function showResult(){
+  $('res').classList.add('vis');
+  $('res-t').innerHTML=`<p>▸ 물과 콩기름은 서로 섞이지 않는 <strong style="color:var(--cyan)">불균일 혼합물</strong>입니다.</p><p>▸ <strong style="color:var(--amber)">밀도 차이</strong>를 이용하여 분별깔때기로 분리할 수 있습니다.</p><p>▸ 아래층(물)은 <strong style="color:var(--wc)">꼭지를 열어</strong> 비커에 받고, 위층(콩기름)은 <strong style="color:var(--oc)">마개 쪽으로 따라냅니다</strong>.</p><p>▸ 마개를 열어야 공기가 유입되어 액체가 원활히 배출됩니다.</p><p>▸ 기름을 위로 따라내는 이유: 꼭지 아래 관에 남은 물이 기름에 섞이지 않게 하기 위해서입니다.</p>`;
+  $('cpt').innerHTML=`<strong style="color:var(--green)">실험 완료!</strong> ① 마개를 열고 꼭지를 열어야 액체가 잘 흐른다. ② 아래층만 꼭지로 빼고 꼭지를 잠근다. ③ 위층은 마개 쪽으로 따라낸다. ④ 서로 <strong style="color:var(--cyan)">섞이지 않는 액체</strong>의 밀도 차이를 이용한다.`;
+  msg('🎉 실험 완료!','물과 콩기름을 성공적으로 분리했습니다!',3000);
+}
+
+function resetExperiment(){
+  sndClick();if(S.tiv){clearInterval(S.tiv);S.tiv=null;}spOff();sdOff();
+  Object.assign(S,{step:0,capO:0,ckO:0,busy:0,sep:0,done:0,wF:0,oF:0,wB:0,oB:0,mix:0,sec:0});
+  updF();updB1();updB2();updCap();updCk();showLbl(0);
+  $('ptx').setAttribute('opacity',0);$('drip').setAttribute('opacity',0);$('ostr').setAttribute('opacity',0);$('bk2').setAttribute('opacity','.3');
+  const fg=$('fng');fg.style.transition='';fg.style.transform='';fg.classList.remove('shaking');
+  $('timer').textContent='00:00';$('d-mx').textContent='-';$('res').classList.remove('vis');$('ov').classList.remove('vis');
+  badge('rdy','준비');setS(0);
+  en('b-pour',1);en('b-shake',0);en('b-wait',0);en('b-cap',0);en('b-drain',0);en('b-close',0);en('b-oil',0);
+  $('b-cap-t').textContent='🔓 마개 열기';$('b-drain-t').textContent='💧 꼭지 열기';
+  $('log').innerHTML='<div class="log-e"><b>00:00</b>실험 준비 완료</div>';
+  $('cpt').innerHTML=`물과 콩기름은 서로 <strong style="color:var(--amber)">섞이지 않는</strong> 액체입니다. 이처럼 서로 섞이지 않는 액체의 혼합물은 <strong style="color:var(--cyan)">분별깔때기</strong>를 이용하여 분리할 수 있습니다.`;
+}
+updF();updB1();updB2();
+</script>
+</body>
+</html>
