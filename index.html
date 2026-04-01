@@ -106,17 +106,14 @@ body.light .ov{background:rgba(255,255,255,.94)}
         <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#374151" stop-opacity=".9"/><stop offset="100%" stop-color="#1f2937" stop-opacity=".95"/></linearGradient>
       </defs>
 
-      <!-- DESK -->
       <rect x="30" y="565" width="530" height="16" rx="3" fill="url(#desk)"/>
       <rect x="30" y="575" width="530" height="60" rx="0" fill="#1f2937" opacity=".5"/>
       <line x1="30" y1="565" x2="560" y2="565" stroke="rgba(148,163,184,.15)" stroke-width="1"/>
 
-      <!-- STAND -->
       <rect x="220" y="68" width="8" height="500" rx="3" fill="#5a6577" opacity=".55"/>
       <rect x="200" y="130" width="48" height="7" rx="2" fill="#5a6577" opacity=".6"/>
       <path d="M170 134 Q170 120 188 120 L260 120 Q278 120 278 134" fill="none" stroke="#5a6577" stroke-width="2.5" opacity=".45"/>
 
-      <!-- FUNNEL GROUP -->
       <g id="fng">
         <g id="fnb">
           <path d="M185 118 Q180 118 176 132 Q162 165 158 212 Q154 260 158 298 Q162 326 176 344 Q185 358 198 372 L198 418 L250 418 L250 372 Q263 358 272 344 Q286 326 290 298 Q294 260 290 212 Q286 165 272 132 Q268 118 263 118 Z" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.8"/>
@@ -128,9 +125,7 @@ body.light .ov{background:rgba(255,255,255,.94)}
             <rect id="ml" x="150" y="138" width="148" height="0" fill="url(#mg)" opacity="0"/>
             <g id="bub" opacity="0"></g>
           </g>
-          <!-- Stem -->
           <rect x="210" y="418" width="28" height="44" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.5"/>
-          <!-- Stopcock 꼭지 -->
           <g id="stopcock">
             <rect x="204" y="453" width="40" height="12" rx="3" fill="#d1d5db" stroke="#9ca3af" stroke-width=".8"/>
             <rect id="ckh" x="241" y="449" width="26" height="20" rx="3" fill="#6b7280" stroke="#9ca3af" stroke-width=".8"/>
@@ -138,14 +133,12 @@ body.light .ov{background:rgba(255,255,255,.94)}
           </g>
           <rect x="217" y="465" width="14" height="18" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.2"/>
           
-          <!-- Cap 마개 -->
           <g id="cap">
             <rect x="197" y="106" width="54" height="14" rx="3" fill="#9ca3af" stroke="var(--gs)" stroke-width=".8"/>
             <rect x="218" y="97" width="12" height="12" rx="2.5" fill="#9ca3af" />
             <text x="224" y="116" text-anchor="middle" font-size="9" fill="#1f2937" font-weight="700" font-family="'Noto Sans KR'">마개</text>
           </g>
           
-          <!-- Scale -->
           <g opacity=".25" font-size="8" fill="var(--t2)" font-family="'Noto Sans KR'">
             <line x1="286" y1="200" x2="294" y2="200" stroke="var(--t2)" stroke-width=".8"/><text x="297" y="203">50</text>
             <line x1="283" y1="295" x2="294" y2="295" stroke="var(--t2)" stroke-width=".8"/><text x="297" y="298">100</text>
@@ -154,7 +147,6 @@ body.light .ov{background:rgba(255,255,255,.94)}
         </g>
       </g>
 
-      <!-- STATUS INDICATORS -->
       <g id="capSt" opacity="0">
         <rect x="105" y="100" width="65" height="20" rx="5" fill="rgba(16,185,129,.12)" stroke="rgba(16,185,129,.25)" stroke-width=".8"/>
         <text x="137" y="114" text-anchor="middle" font-size="10" fill="#10b981" font-weight="500" font-family="'Noto Sans KR'">마개 열림</text>
@@ -164,7 +156,6 @@ body.light .ov{background:rgba(255,255,255,.94)}
         <text x="302" y="467" text-anchor="middle" font-size="10" fill="#60a5fa" font-weight="500" font-family="'Noto Sans KR'">꼭지 열림</text>
       </g>
 
-      <!-- BEAKER A (물) - center under funnel -->
       <g id="bk1">
         <path d="M175 500 L175 555 Q175 563 183 563 L275 563 Q283 563 283 555 L283 500" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.8"/>
         <path d="M175 500 L167 496" fill="none" stroke="var(--gs)" stroke-width="1.5"/>
@@ -173,7 +164,6 @@ body.light .ov{background:rgba(255,255,255,.94)}
         <text x="229" y="576" text-anchor="middle" font-size="10" fill="var(--t3)" font-family="'Noto Sans KR'">비커 A</text>
       </g>
 
-      <!-- BEAKER B (기름) - RIGHT side -->
       <g id="bk2" opacity=".3">
         <path d="M390 500 L390 555 Q390 563 398 563 L490 563 Q498 563 498 555 L498 500" fill="var(--gf)" stroke="var(--gs)" stroke-width="1.8"/>
         <path d="M390 500 L382 496" fill="none" stroke="var(--gs)" stroke-width="1.5"/>
@@ -182,16 +172,13 @@ body.light .ov{background:rgba(255,255,255,.94)}
         <text x="444" y="576" text-anchor="middle" font-size="10" fill="var(--t3)" font-family="'Noto Sans KR'">비커 B</text>
       </g>
 
-      <!-- DRIP -->
       <g id="drip" opacity="0"><circle id="drop" cx="224" cy="487" r="3.5" fill="#3b82f6" opacity=".85"/></g>
 
-      <!-- OIL STREAM (Starts from tilted mouth, drops into Beaker B) -->
       <g id="ostr" opacity="0">
         <path d="M355 170 Q 410 180 435 280 L 440 500" fill="none" stroke="#d97706" stroke-width="6" opacity=".5" stroke-linecap="round"/>
         <path d="M355 170 Q 410 180 435 280 L 440 500" fill="none" stroke="#fbbf24" stroke-width="3" opacity=".7" stroke-linecap="round"/>
       </g>
 
-      <!-- LABELS -->
       <g id="lbl" opacity="0">
         <g><line x1="288" y1="185" x2="330" y2="178" stroke="#fbbf24" stroke-width=".8" stroke-dasharray="2,2" opacity=".5"/>
         <rect x="330" y="167" width="62" height="20" rx="5" fill="rgba(217,119,6,.12)" stroke="rgba(217,119,6,.22)" stroke-width=".8"/>
@@ -204,10 +191,8 @@ body.light .ov{background:rgba(255,255,255,.94)}
         <text x="79" y="271" text-anchor="middle" font-size="11" fill="#06b6d4" font-weight="500" font-family="'Noto Sans KR'">경계면</text></g>
       </g>
 
-      <!-- POUR TEXT -->
       <g id="ptx" opacity="0"><text x="224" y="80" text-anchor="middle" font-size="12" fill="var(--cyan)" font-family="'Noto Sans KR'" font-weight="500">혼합물 투입 중...</text></g>
 
-      <!-- ===== CONTROLS (RIGHT) ===== -->
       <g id="ctrls" font-family="'Noto Sans KR'" font-size="12">
         <g class="svg-btn" id="b-pour" onclick="pourMixture()">
           <rect x="600" y="80" width="260" height="40" rx="8" fill="rgba(59,130,246,.12)" stroke="rgba(59,130,246,.3)" stroke-width="1"/>
@@ -296,7 +281,6 @@ body.light .ov{background:rgba(255,255,255,.94)}
     </div>
     <div class="res" id="res"><h4>✅ 실험 결과</h4><div id="res-t"></div></div>
     
-    <!-- 저작권 명시 영역 -->
     <div class="copyright">
       &copy; 2026 <strong>송쌤과학</strong>. All rights reserved.
     </div>
@@ -391,18 +375,44 @@ function updCk(){
 function showLbl(v){$('lbl').setAttribute('opacity',v?1:0);}
 
 // ===== EXPERIMENT STEPS =====
+// 수정된 혼합물 투입 함수
 function pourMixture(){
   if(!S.allSf){msg('⚠️ 안전 수칙 확인','모든 안전 수칙을 먼저 확인해 주세요!',2500);sndClick();return;}
   if(S.busy||S.step>0)return;
   S.busy=1;startT();en('b-pour',0);badge('prog','투입 중');
-  addL('물(100mL)과 콩기름(80mL)의 혼합물을 분별깔때기에 넣는 중');
-  $('ptx').setAttribute('opacity',1);spOn();
-  let p=0;
-  const iv=setInterval(()=>{
-    p+=2;S.wF=Math.min(100,p);S.oF=Math.min(80,p*.8);S.mix=0;updF();$('d-mx').textContent='분리 상태';
-    if(p%10===0)sndBub();
-    if(p>=100){clearInterval(iv);spOff();S.busy=0;$('ptx').setAttribute('opacity',0);addL('혼합물 투입 완료 (물 100mL + 콩기름 80mL)');addL('밀도 차이로 물이 아래, 콩기름이 위에 위치');showLbl(1);setS(1);en('b-shake',1);badge('prog','진행 중');$('cpt').innerHTML=`물(밀도 <strong style="color:var(--wc)">1.00 g/mL</strong>)이 콩기름(밀도 <strong style="color:var(--oc)">0.92 g/mL</strong>)보다 밀도가 크므로 <strong style="color:var(--cyan)">아래층</strong>에 위치합니다.`;}
-  },30);
+
+  // 1. 마개 열기
+  sndClick();
+  S.capO=1;
+  updCap();
+  addL('혼합물을 넣기 위해 마개를 엽니다.');
+
+  // 2. 마개 연 후 약간의 대기시간을 두고 혼합물 투입 시작
+  setTimeout(() => {
+    addL('물(100mL)과 콩기름(80mL)의 혼합물을 분별깔때기에 넣는 중');
+    $('ptx').setAttribute('opacity',1);spOn();
+    let p=0;
+    const iv=setInterval(()=>{
+      p+=2;S.wF=Math.min(100,p);S.oF=Math.min(80,p*.8);S.mix=0;updF();$('d-mx').textContent='분리 상태';
+      if(p%10===0)sndBub();
+      if(p>=100){
+        clearInterval(iv);spOff();$('ptx').setAttribute('opacity',0);
+        addL('혼합물 투입 완료 (물 100mL + 콩기름 80mL)');
+        
+        // 3. 투입 완료 후 잠시 대기했다가 마개 닫기
+        setTimeout(() => {
+          sndClick();
+          S.capO=0;
+          updCap();
+          addL('분별깔때기 마개를 닫습니다.');
+          addL('밀도 차이로 물이 아래, 콩기름이 위에 위치');
+          
+          showLbl(1);setS(1);en('b-shake',1);badge('prog','진행 중');S.busy=0;
+          $('cpt').innerHTML=`물(밀도 <strong style="color:var(--wc)">1.00 g/mL</strong>)이 콩기름(밀도 <strong style="color:var(--oc)">0.92 g/mL</strong>)보다 밀도가 크므로 <strong style="color:var(--cyan)">아래층</strong>에 위치합니다.`;
+        }, 600);
+      }
+    },30);
+  }, 800);
 }
 
 function shakeFunnel(){
@@ -455,7 +465,6 @@ function closeCock(){
   if(S.step!==4||!S.ckO)return;
   sndLock();
   S.ckO=0;updCk();
-  // 물리적 고증에 맞게 위로 따르기 위해 마개는 계속 열어둔 상태 유지 (S.capO=0 삭제)
   en('b-close',0);
   addL('꼭지를 잠금');
   addL('분별깔때기에 콩기름만 남아 있음');
@@ -467,14 +476,13 @@ function closeCock(){
   msg('💡 안내','꼭지를 잠갔습니다. 이제 기름을 비커 B에 따라내세요.',2500);
 }
 
-// 수정된 기름 따라내기 함수 (마개 입구부터 정확히 떨어지도록 회전 및 물줄기 시작점 정밀 조절)
 function pourOilOut(){
   if(S.busy||S.step!==5)return;
   S.busy=1;en('b-oil',0);addL('마개 쪽으로 콩기름을 비커 B에 따라내는 중');badge('prog','기름 분리 중');sndOil();
   const fg=$('fng');
   fg.style.transition='transform 1.2s ease-in-out';
-  fg.style.transformOrigin='224px 290px'; // 스탠드 링 고정 위치
-  fg.style.transform='rotate(38deg)';     // 비커 B 방향(우측)으로 자연스러운 회전
+  fg.style.transformOrigin='224px 290px'; 
+  fg.style.transform='rotate(38deg)';     
   
   setTimeout(()=>{
     $('ostr').setAttribute('opacity','1');
@@ -489,7 +497,7 @@ function pourOilOut(){
         setTimeout(() => {
           fg.style.transform='rotate(0)';
           setTimeout(()=>{fg.style.transition='';S.busy=0;S.done=1;setS(6);badge('done','실험 완료');addL('콩기름 분리 완료 - 비커 B에 콩기름 수집');addL('물과 콩기름 분리 실험 완료!');sndDone();showResult();},1200);
-        }, 300); // 기름 다 따른 후 살짝 기다렸다가 원위치
+        }, 300); 
       }
     },35);
   },1200);
